@@ -1,23 +1,23 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Tags - Tag - Karen&#39;s Blog</title>
-        <link>http://example.org/tags/</link>
+        <link>https://karenchuu.github.io/tags/</link>
         <description>Tags - Tag - Karen&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-TW</language><managingEditor>kw83107@gmail.com (KarenChu)</managingEditor>
-            <webMaster>kw83107@gmail.com (KarenChu)</webMaster><lastBuildDate>Mon, 16 May 2022 12:15:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>kw83107@gmail.com (KarenChu)</webMaster><lastBuildDate>Mon, 16 May 2022 12:15:32 &#43;0800</lastBuildDate><atom:link href="https://karenchuu.github.io/tags/" rel="self" type="application/rss+xml" /><item>
     <title>Blog</title>
-    <link>http://example.org/tags/blog/</link>
+    <link>https://karenchuu.github.io/tags/blog/</link>
     <pubDate>Mon, 16 May 2022 12:15:32 &#43;0800</pubDate>
     <author>KarenChu</author>
-    <guid>http://example.org/tags/blog/</guid>
+    <guid>https://karenchuu.github.io/tags/blog/</guid>
     <description><![CDATA[]]></description>
 </item>
 <item>
     <title>MySQL</title>
-    <link>http://example.org/tags/mysql/</link>
+    <link>https://karenchuu.github.io/tags/mysql/</link>
     <pubDate>Mon, 16 May 2022 12:05:32 &#43;0800</pubDate>
     <author>KarenChu</author>
-    <guid>http://example.org/tags/mysql/</guid>
+    <guid>https://karenchuu.github.io/tags/mysql/</guid>
     <description><![CDATA[]]></description>
 </item>
 </channel>

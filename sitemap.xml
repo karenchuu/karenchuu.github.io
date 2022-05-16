@@ -2,14 +2,14 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://example.org/posts/2022/5/add-disqus-to-hugo-site/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/posts/2022/5/mysql-index-introduction/</loc><lastmod>2022-05-16T12:05:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/tags/blog/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/categories/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/posts/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/tags/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/categories/%E9%83%A8%E8%90%BD%E6%A0%BC%E5%BB%BA%E7%BD%AE/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/tags/mysql/</loc><lastmod>2022-05-16T12:05:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/categories/mysql/</loc><lastmod>2022-05-16T12:05:32&#43;08:00</lastmod></url><url>
-            <loc>http://example.org/about/</loc><priority>0</priority></url></urlset>
+            <loc>https://karenchuu.github.io/posts/2022/5/add-disqus-to-hugo-site/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/posts/2022/5/mysql-index-introduction/</loc><lastmod>2022-05-16T12:05:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/tags/blog/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/categories/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/posts/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/tags/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/categories/%E9%83%A8%E8%90%BD%E6%A0%BC%E5%BB%BA%E7%BD%AE/</loc><lastmod>2022-05-16T12:15:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/tags/mysql/</loc><lastmod>2022-05-16T12:05:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/categories/mysql/</loc><lastmod>2022-05-16T12:05:32&#43;08:00</lastmod></url><url>
+            <loc>https://karenchuu.github.io/about/</loc><priority>0</priority></url></urlset>
