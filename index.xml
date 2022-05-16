@@ -2,7 +2,7 @@
     <channel>
         <title>Karen&#39;s Blog</title>
         <link>https://karenchuu.github.io/</link>
-        <description>I am Karen, working on bank for fintech.</description>
+        <description>blog,developer,java,github,hugo</description>
         <generator>Hugo -- gohugo.io</generator><language>zh-TW</language><managingEditor>kw83107@gmail.com (KarenChu)</managingEditor>
             <webMaster>kw83107@gmail.com (KarenChu)</webMaster><lastBuildDate>Mon, 16 May 2022 12:15:32 &#43;0800</lastBuildDate>
             <atom:link href="https://karenchuu.github.io/index.xml" rel="self" type="application/rss+xml" />
