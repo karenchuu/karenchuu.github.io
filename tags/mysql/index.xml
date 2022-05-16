@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>MySQL - Tag - Karen&#39;s Blog</title>
+        <link>http://example.org/tags/mysql/</link>
+        <description>MySQL - Tag - Karen&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-TW</language><managingEditor>kw83107@gmail.com (KarenChu)</managingEditor>
+            <webMaster>kw83107@gmail.com (KarenChu)</webMaster><lastBuildDate>Mon, 16 May 2022 12:05:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/tags/mysql/" rel="self" type="application/rss+xml" /><item>
+    <title>MySQL索引</title>
+    <link>http://example.org/posts/2022/5/mysql-index-introduction/</link>
+    <pubDate>Mon, 16 May 2022 12:05:32 &#43;0800</pubDate>
+    <author>Karen</author>
+    <guid>http://example.org/posts/2022/5/mysql-index-introduction/</guid>
+    <description><![CDATA[探索MySQL索引的核心概念。]]></description>
+</item>
+</channel>
+</rss>

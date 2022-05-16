@@ -1,0 +1,24 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - Karen&#39;s Blog</title>
+        <link>http://example.org/posts/</link>
+        <description>All Posts | Karen&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator><language>zh-TW</language><managingEditor>kw83107@gmail.com (KarenChu)</managingEditor>
+            <webMaster>kw83107@gmail.com (KarenChu)</webMaster><lastBuildDate>Mon, 16 May 2022 12:15:32 &#43;0800</lastBuildDate><atom:link href="http://example.org/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Hugo | 加入評論系統至部落格（Disqus）</title>
+    <link>http://example.org/posts/2022/5/add-disqus-to-hugo-site/</link>
+    <pubDate>Mon, 16 May 2022 12:15:32 &#43;0800</pubDate>
+    <author>Karen</author>
+    <guid>http://example.org/posts/2022/5/add-disqus-to-hugo-site/</guid>
+    <description><![CDATA[不會寫程式也能快速打造自己的部落格，建立你的個人品牌]]></description>
+</item>
+<item>
+    <title>MySQL索引</title>
+    <link>http://example.org/posts/2022/5/mysql-index-introduction/</link>
+    <pubDate>Mon, 16 May 2022 12:05:32 &#43;0800</pubDate>
+    <author>Karen</author>
+    <guid>http://example.org/posts/2022/5/mysql-index-introduction/</guid>
+    <description><![CDATA[探索MySQL索引的核心概念。]]></description>
+</item>
+</channel>
+</rss>
