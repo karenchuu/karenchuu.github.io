@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="前言資料庫索引已經是後端工程師的必備基礎知識，當遇到資料量大的時候，要能夠知道如何優化索引已經是必備技能！ 什麼是索引？索引是一種幫助 MySQL 提高查詢效率的資料結構。  索引的優點：   大大加快數據查詢速度   索引的缺點：  維護索引需要耗費數據庫資源 索引需要占用磁盤空間 當對表的數據進行增刪改的時候，因為要維護索引，速度會受到影響    索引分類InnoDB 主鍵索引：設定為主鍵後，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL索引的基本知識">
+<meta property="og:url" content="https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/index.html">
+<meta property="og:site_name" content="Karen&#39;s Blog">
+<meta property="og:description" content="前言資料庫索引已經是後端工程師的必備基礎知識，當遇到資料量大的時候，要能夠知道如何優化索引已經是必備技能！ 什麼是索引？索引是一種幫助 MySQL 提高查詢效率的資料結構。  索引的優點：   大大加快數據查詢速度   索引的缺點：  維護索引需要耗費數據庫資源 索引需要占用磁盤空間 當對表的數據進行增刪改的時候，因為要維護索引，速度會受到影響    索引分類InnoDB 主鍵索引：設定為主鍵後，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bc3e173692af49c4811f64a6ecbc51fb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAaGFvaHVsYWxh,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="https://raw.githubusercontent.com/karenchuu/oss/main/202205090016547.png">
+<meta property="og:image" content="https://bbsmax.ikafan.com/static/L3Byb3h5L2h0dHBzL2FlMDQuYWxpY2RuLmNvbS9rZi9IYzE4N2VhNTZjYmUxNDU5YjhjMTZkNTVmMDVhZTJkYzk2LmpwZw==.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/karenchuu/oss/main/202205091037901.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/karenchuu/oss/main/202205091042669.png">
+<meta property="article:published_time" content="2022-05-16T03:59:54.000Z">
+<meta property="article:modified_time" content="2023-02-25T15:28:02.048Z">
+<meta property="article:author" content="Karen&#39;s Blog">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/bc3e173692af49c4811f64a6ecbc51fb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAaGFvaHVsYWxh,size_20,color_FFFFFF,t_70,g_se,x_16">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>MySQL索引的基本知識</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/posts/">Posts</a></li><!--
+     --><!--
+       --><li><a href="/categories">Categories</a></li><!--
+     --><!--
+       --><li><a href="/tags">Tags</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/02/2023-2023-02-28-bulit-blog-with-hexo/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&text=MySQL索引的基本知識"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&is_video=false&description=MySQL索引的基本知識"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MySQL索引的基本知識&body=Check out this article: https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&name=MySQL索引的基本知識&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&t=MySQL索引的基本知識"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什麼是索引？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%86%E9%A1%9E"><span class="toc-number">3.</span> <span class="toc-text">索引分類</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB"><span class="toc-number">3.1.</span> <span class="toc-text">InnoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyISAM"><span class="toc-number">3.2.</span> <span class="toc-text">MyISAM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">索引的基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%BA%95%E5%B1%A4%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">索引的底層原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%B8%BB%E9%8D%B5%E9%80%9A%E5%B8%B8%E5%BB%BA%E8%AD%B0%E4%BD%BF%E7%94%A8%E8%87%AA%E5%A2%9EID"><span class="toc-number">6.</span> <span class="toc-text">為什麼主鍵通常建議使用自增ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%83%85%E6%B3%81%E4%B8%8B%E7%84%A1%E6%B3%95%E5%88%A9%E7%94%A8%E7%B4%A2%E5%BC%95%E5%91%A2"><span class="toc-number">7.</span> <span class="toc-text">什麼情況下無法利用索引呢?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL%E8%90%AC%E8%83%BD%E5%84%AA%E5%8C%96%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text">MySQL萬能優化法</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        MySQL索引的基本知識
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">
+          <a href="/">
+          Karen's Blog
+          </a>
+        </span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-05-16T03:59:54.000Z" itemprop="datePublished">2022-05-16</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/">資料庫</a> › <a class="category-link" href="/categories/%E8%B3%87%E6%96%99%E5%BA%AB/MySQL/">MySQL</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/MySQL/" rel="tag">MySQL</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>資料庫索引已經是後端工程師的必備基礎知識，當遇到資料量大的時候，要能夠知道如何優化索引已經是必備技能！</p>
+<h2 id="什麼是索引？"><a href="#什麼是索引？" class="headerlink" title="什麼是索引？"></a>什麼是索引？</h2><p>索引是一種幫助 MySQL 提高查詢效率的資料結構。</p>
+<ul>
+<li><p>索引的優點： </p>
+<ol>
+<li>大大加快數據查詢速度</li>
+</ol>
+</li>
+<li><p>索引的缺點：</p>
+<ol>
+<li>維護索引需要耗費數據庫資源</li>
+<li>索引需要占用磁盤空間</li>
+<li>當對表的數據進行增刪改的時候，因為要維護索引，速度會受到影響</li>
+</ol>
+</li>
+</ul>
+<h2 id="索引分類"><a href="#索引分類" class="headerlink" title="索引分類"></a>索引分類</h2><h3 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h3><ul>
+<li>主鍵索引：設定為主鍵後，資料庫會自動建立索引，InnoDB為聚簇索引（clustered index），索引列值不能為空</li>
+<li>普通索引（單例索引 普通索引 單值索引）：即一個索引只包含單個列，一個表可以有多個單列索引</li>
+<li>唯一索引：索引列的值必須為一，但是允許有空值（與主鍵索引的區別就是可以為null）</li>
+<li>複合索引：即一个索引包含多个列</li>
+</ul>
+<h3 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h3><ul>
+<li>Full Text 全文索引 (MySQL5.7版本之前 只能由于 MYISAM 引擎)<ul>
+<li>全文索引類型為FULLTEXT，在定義索引的列支援值的全文查找，允許在這些索引列中插入重複值和空值。</li>
+<li>全文索引可以在CHAR、VARCHAR、TEXT類型上創建鍵。<strong>MYSQL只有 MyISAM 引擎支持全文索引</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="索引的基本操作"><a href="#索引的基本操作" class="headerlink" title="索引的基本操作"></a>索引的基本操作</h2><p><strong>主键索引 Primary Key</strong><br>創建表的時候會自動建立。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--建表 主键會自動創建主键索引</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_user(id <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">primary</span> key,name <span class="type">varchar</span>(<span class="number">20</span>));</span><br><span class="line"><span class="comment">--查看索引</span></span><br><span class="line"><span class="keyword">show</span> index <span class="keyword">from</span> t_user;</span><br></pre></td></tr></table></figure>
+
+<p><strong>普通索引</strong><br>這是最基本的索引，它沒有任何限制。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--建表時創建:隨表一起建立的索引索引名同列名一致</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_user(id <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">primary</span> key,name <span class="type">varchar</span>(<span class="number">20</span>),key(name));</span><br><span class="line"><span class="comment">--建表後創建</span></span><br><span class="line"><span class="keyword">create</span> index nameindex <span class="keyword">on</span> t_user(name);</span><br><span class="line"><span class="comment">--删除索引</span></span><br><span class="line"><span class="keyword">drop</span> index 索引名 <span class="keyword">on</span> 表名</span><br></pre></td></tr></table></figure>
+
+<p><strong>唯一索引 Unique index</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--建表時創建</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_user(id <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">primary</span> key,name <span class="type">varchar</span>(<span class="number">20</span>),<span class="keyword">unique</span>(name));</span><br><span class="line"><span class="comment">--建表後創建</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">unique</span> index nameindex <span class="keyword">on</span> t_user(name);</span><br></pre></td></tr></table></figure>
+
+<p><strong>複合索引 Composite Index</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">---建表時創建</span></span><br><span class="line"> <span class="keyword">create</span> <span class="keyword">table</span> t_user(id <span class="type">varchar</span>(<span class="number">20</span>) <span class="keyword">primary</span> key,name <span class="type">varchar</span>(<span class="number">20</span>),age <span class="type">int</span>,key(name,age));</span><br><span class="line"> <span class="comment">--建表後創建</span></span><br><span class="line"> <span class="keyword">create</span> index nameageindex <span class="keyword">on</span> t_user(name,age);</span><br></pre></td></tr></table></figure>
+
+<p><strong>小試身手</strong></p>
+<p>如果基於 name, age bir 創建複合索引</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Q: name bir age 能否利用索引</span><br><span class="line">A: 可以</span><br><span class="line">Q: name age bir 能否利用索引</span><br><span class="line">A: 可以</span><br><span class="line">Q: age bir      能否利用索引</span><br><span class="line">A: 不行</span><br><span class="line">Q: bir age name 能否利用索引</span><br><span class="line">A: 可以</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果要利用複合索引，必須符合左前綴的順序才能利用索引</li>
+<li>Mysql 引擎在查詢為了更好利用索引，在查詢過程中會動態調整查詢字段順序以便利用索引<br>只要查詢欄位有包含索引，不分順序就可以利用上</li>
+</ol>
+<h2 id="索引的底層原理"><a href="#索引的底層原理" class="headerlink" title="索引的底層原理"></a>索引的底層原理</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 建表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t_emp(id <span class="type">int</span> <span class="keyword">primary</span> key,name <span class="type">varchar</span>(<span class="number">20</span>),age <span class="type">int</span>);</span><br><span class="line"><span class="comment">-- 1.新增資料</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">5</span>,<span class="string">&#x27;d&#x27;</span>,<span class="number">22</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">6</span>,<span class="string">&#x27;d&#x27;</span>,<span class="number">22</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">7</span>,<span class="string">&#x27;e&#x27;</span>,<span class="number">21</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;a&#x27;</span>,<span class="number">23</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;b&#x27;</span>,<span class="number">26</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;c&#x27;</span>,<span class="number">27</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">4</span>,<span class="string">&#x27;a&#x27;</span>,<span class="number">32</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">8</span>,<span class="string">&#x27;f&#x27;</span>,<span class="number">53</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t_emp <span class="keyword">values</span>(<span class="number">9</span>,<span class="string">&#x27;v&#x27;</span>,<span class="number">13</span>);</span><br><span class="line"><span class="comment">-- 2.查詢結果</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> t_emp;</span><br></pre></td></tr></table></figure>
+
+<p>為什麼上面指令沒有按順序插入資料，查詢時確是有順序的呢？<br>    原因是：MySQL 底層為主鍵自動創建索引，創建索引會進行排序。也就是 MySQL 底層就是這樣存資料的。</p>
+<p>為什麼 MySQL 底層要排序呢？<br>    為了快速查詢。<br>    因為排序之後再查詢就相對比較快。如查詢 id&#x3D;3 的我只需要按照順序找到3就行了。<br>    如果没有排序只能大海撈針，全靠運氣去搜尋資料</p>
+<p><img src="https://img-blog.csdnimg.cn/bc3e173692af49c4811f64a6ecbc51fb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAaGFvaHVsYWxh,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
+<p>為了近一步提高效率 MySQL 索引又進行了優化<br>基於頁的形式對索引進行管理。<br>如查询 id&#x3D;4 的資料，直接先比较頁，先去頁目錄中找，再去資料目錄中找。</p>
+<p><strong>如何計算一條列儲存空間？</strong></p>
+<ul>
+<li>id 為 int &#x3D; 4 byte</li>
+<li>name 為 varchar(20) &#x3D; 20 byte</li>
+<li>age 為 int &#x3D; 4 byte</li>
+<li>指針為 4~8byte<br>故一列為 4+20+4+8 &#x3D; 36byte。<br>一頁page默認可存儲空間為16KB，如果一列為36byte，故1頁可以存放455條數據（16KB*1024&#x2F;36）</li>
+</ul>
+<p>頁目錄默認可存儲空間為16KB，16*1024&#x2F;(4+8byte) &#x3D; 1365頁</p>
+<ul>
+<li>故如果用兩層結構存儲數據，總共可以455*1365&#x3D;621226條數據</li>
+<li>如果用三層結構存儲數據，總共可以1365 * 1365 * 455 &#x3D; 8億條左右數據</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/karenchuu/oss/main/202205090016547.png"></p>
+<p>上面這種索引結構稱为 B+Tree 資料結構，那為什麼要使用 B+Tree 儲存呢?<br><img src="https://bbsmax.ikafan.com/static/L3Byb3h5L2h0dHBzL2FlMDQuYWxpY2RuLmNvbS9rZi9IYzE4N2VhNTZjYmUxNDU5YjhjMTZkNTVmMDVhZTJkYzk2LmpwZw==.jpg" alt="img"></p>
+<p>參考資料：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lianzhilei/p/11250589.html">https://www.cnblogs.com/lianzhilei/p/11250589.html</a></p>
+<p>B+Tree是在B-Tree(B樹)基礎上的一種優化，使其更適合實現外存儲索引結構，InnoDB存儲引擎就是用B+Tree實現其索引結構。</p>
+<p>從上一節中的B-Tree結構圖中可以看到每個節點中不僅包含數據的key值，還有data值。而每一個頁的存儲空間是有限的，如果data數據較大時將會導致每個節點（即一個頁）能存儲的key的數量很小，當存儲的數據量很大時同樣會導致B-Tree的深度較大，增大查詢時的磁盤I&#x2F;O次數，進而影響查詢效率。</p>
+<p>在B+Tree中，所有數據記錄節點都是按照鍵值大小順序存放在同一層的葉子節點上，而非葉子節點上只存儲key值信息，這樣可以大大加大每個節點存儲的key值數量，降低B+Tree的高度。<strong>B+Tree為了加快查詢，最頂層的數據是常駐內存的，如果基於PK查詢最多1～2次，但如果是非PK例如普通索引，最多1~3次硬碟I&#x2F;O操作，因為它要先找到主鍵索引再根據主鍵索引去查，所以多了1次</strong>。</p>
+<p><strong>B+Tree相對於B-Tree有幾點不同：</strong></p>
+<ol>
+<li>非葉子節點只會存儲键值訊息（無值）以及指針訊息。</li>
+<li>所有葉子節點之間都有一個鏈指針。</li>
+<li>數據記錄都存放在葉子節點中。（B+Tree只有葉子節點存儲數據，B-Tree非葉子節點也要存儲數據）</li>
+</ol>
+<p>故 B+Tree 可以存儲的數據更多一點</p>
+<p>InnoDB存儲引擎中頁的大小為16KB，一般表的主鍵類型為INT（占用4個位元組）或BIGINT（占用8個位元組），指針類型也一般為4或8個位元組，也就是說一個頁（B+Tree中的一個節點）中大概存儲16KB&#x2F;(8B+8B)&#x3D;1K個鍵值（因為是估值，為方便計算，這里的K取值為〖10〗^3）。也就是說一個深度為3的B+Tree索引可以維護103 * 10^3 * 10^3 &#x3D; 10億 條記錄。</p>
+<p>實際情況中每個節點可能不能填充滿，因此在數據庫中，B+Tree的高度一般都在2-4層。<strong>mysql的InnoDB存儲引擎在設計時是將根節點常駐記憶體的，也就是說查找某一鍵值的行記錄時最多只需要1-3次磁盤I&#x2F;O操作。</strong>注意：頂層常駐記憶體</p>
+<p><strong>簡單總結 MySQL 索引的底層實現</strong><br>放入數據進資料庫的時候會基於數據去排序，排序後會以鏈表的形式以一個指針的形式鏈接起來，同時MySQL在底層為了進一步優化，他是基於B+Tree的數據結構進行存儲，對我們的數據進行了一頁一頁的存，默認頁大小為16KB，站在這種B+Tree的數據結構上來講，一個三層的B+Tree的數據結構可以存儲8~10億的數據，一般來說來用的時候兩層足以，那兩層這種B+Tree來講，查詢時如果基於主鍵來查最多動用1次磁盤IO，因為頂層是常駐記憶體。</p>
+<p>為什麼 MySQL 主鍵一直用INT的原因：是因為INT可以排序，所以以後主鍵不要再用UUID了，因為UUID比較離散無法排序！</p>
+<p><strong>聚簇索引和非聚簇索引</strong><br>聚簇索引： 將數據存儲與索引放到了一塊，索引結構的葉子節點保存了行數據—-InnoDB<br>非聚簇索引：將數據與索引分開存儲，索引結構的葉子節點指向了數據對應的位置—-MyISAM</p>
+<p>注意：在innodb中，在聚簇索引之上創建的索引稱之為輔助索引，非聚簇索引都是輔助索引，像復合索引、前綴索引、唯一索引。輔助索引葉子節點存儲的不再是行的物理位置，而是主鍵值，輔助索引訪問數據總是需要二次查找。</p>
+<p><strong>為什麼是存儲主鍵值，而不是存地址？</strong><br>Ans：因為增刪改的時候，會導致樹上的地址會發生變化<br><img src="https://raw.githubusercontent.com/karenchuu/oss/main/202205091037901.png"></p>
+<ul>
+<li><p>InnoDB</p>
+<ul>
+<li>InnoDB使用的是聚簇索引，將主鍵組織到一棵B+樹中，而行數據就儲存在葉子節點上，若使用”where id &#x3D; 14”這樣的條件查找主鍵，則按照B+樹的檢索演算法即可查找到對應的葉節點，之後獲得行數據。</li>
+<li>若對Name列進行條件搜索，則需要兩個步驟：第一步在輔助索引B+樹中檢索Name，到達其葉子節點獲取對應的主鍵。第二步使用主鍵在主索引B+樹種再執行一次B+樹檢索操作，最終到達葉子節點即可獲取整行數據。（重點在於通過其他鍵需要建立輔助索引）</li>
+<li><strong>聚簇索引默認是主鍵</strong>，如果表中沒有定義主鍵，InnoDB 會選擇一個<strong>唯一且非空的索引</strong>代替。如果沒有這樣的索引，InnoDB 會<strong>隱式定義一個主鍵（類似oracle中的RowId）</strong>來作為聚簇索引。如果已經設置了主鍵為聚簇索引又希望再單獨設置聚簇索引，必須先刪除主鍵，然後添加我們想要的聚簇索引，最後恢復設置主鍵即可。</li>
+</ul>
+</li>
+<li><p>MYISAM</p>
+<ul>
+<li>MyISAM使用的是非聚簇索引，<strong>非聚簇索引的兩棵B+樹看上去沒什麼不同</strong>，節點的結構完全一致只是存儲的內容不同而已，主鍵索引B+樹的節點存儲了主鍵，輔助鍵索引B+樹存儲了輔助鍵。表數據存儲在獨立的地方，這兩顆B+樹的葉子節點都使用一個地址指向真正的表數據，對於表數據來說，這兩個鍵沒有任何差別。由於<strong>索引樹是獨立的，通過輔助鍵檢索無需訪問主鍵的索引樹</strong>。</li>
+</ul>
+<p>  <img src="https://raw.githubusercontent.com/karenchuu/oss/main/202205091042669.png"></p>
+</li>
+</ul>
+<p><strong>使用聚簇索引的優勢</strong><br><strong>問題: 每次使用輔助索引檢索都要經過兩次B+樹查找，看上去聚簇索引的效率明顯要低於非聚簇索引，這不是多此一舉嗎？聚簇索引的優勢在哪？</strong></p>
+<ol>
+<li>由於行數據和聚簇索引的葉子節點存儲在一起，同一頁中會有多條行數據，訪問同一數據頁不同行記錄時，已經把頁加載到了Buffer中（緩存器），再次訪問時，會在內存中完成訪問，不必訪問磁盤。這樣主鍵和行數據是一起被載入內存的，找到葉子節點就可以立刻將行數據返回了，如果按照主鍵Id來組織數據，獲得數據更快。</li>
+<li>輔助索引的葉子節點，存儲主鍵值，而不是數據的存放地址。好處是當行數據放生變化時，索引樹的節點也需要分裂變化；或者是我們需要查找的數據，在上一次IO讀寫的緩存中沒有，需要發生一次新的IO操作時，可以避免對輔助索引的維護工作，只需要維護聚簇索引樹就好了。另一個好處是，因為輔助索引存放的是主鍵值，減少了輔助索引占用的存儲空間大小。</li>
+</ol>
+<p><strong>使用聚簇索引需要注意什麼?</strong></p>
+<ol>
+<li>當使用主鍵為聚簇索引時，主鍵最好不要使用uuid，因為uuid的值太過離散，不適合排序且可能出線新增加記錄的uuid，會插入在索引樹中間的位置，導致索引樹調整復雜度變大，消耗更多的時間和資源。</li>
+<li>建議使用int類型的自增，方便排序並且默認會在索引樹的末尾增加主鍵值，對索引樹的結構影響最小。而且，主鍵值占用的存儲空間越大，輔助索引中保存的主鍵值也會跟著變大，占用存儲空間，也會影響到IO操作讀取到的數據量。</li>
+</ol>
+<h2 id="為什麼主鍵通常建議使用自增ID"><a href="#為什麼主鍵通常建議使用自增ID" class="headerlink" title="為什麼主鍵通常建議使用自增ID"></a>為什麼主鍵通常建議使用自增ID</h2><p> 聚簇索引的數據的物理存放順序與索引順序是一致的，即：只要索引是相鄰的，那麼對應的數據一定也是相鄰地存放在磁盤上的。如果主鍵不是自增id，那麼可以想象，它會乾些什麼，不斷地調整數據的物理地址、分頁，當然也有其他一些措施來減少這些操作，但卻無法徹底避免。但，如果是自增的，那就簡單了，它只需要一頁一頁地寫，索引結構相對緊湊，磁盤碎片少，效率也高。</p>
+<h2 id="什麼情況下無法利用索引呢"><a href="#什麼情況下無法利用索引呢" class="headerlink" title="什麼情況下無法利用索引呢?"></a>什麼情況下無法利用索引呢?</h2><ol>
+<li>查詢語句中使用LIKE關鍵字<br> 在查詢語句中使用 LIKE 關鍵字進行查詢時，<strong>如果匹配字元串的第一個字元為“%”，索引不會被使用。</strong>如果“%”不是在第一個位置，索引就會被使用。（最左匹配）</li>
+<li>查詢語句中使用多列索引<br> 多列索引是在表的多個欄位上創建一個索引，只有查詢條件中使用了這些欄位中的第一個欄位，索引才會被使用。</li>
+<li>查詢語句中使用OR關鍵字<br> 查詢語句只有OR關鍵字時，如果OR前後的兩個條件的列都是索引，那麼查詢中將使用索引。如果OR前後有一個條件的列不是索引，那麼查詢中將不使用索引。</li>
+</ol>
+<p><strong>如果 name age 各自有建立索引，以下語句可以利用上索引嗎？</strong><br>    <code>name and age</code> 能利用索引<br>    <code>name or age</code> 能利用索引<br>    <code>name or age or bir</code> 不能利用索引</p>
+<h2 id="MySQL萬能優化法"><a href="#MySQL萬能優化法" class="headerlink" title="MySQL萬能優化法"></a>MySQL萬能優化法</h2><ol>
+<li>查看優化器的狀態<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;optimizer_trace&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+<li>session级别臨時開啟 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> session optimizer_trace<span class="operator">=</span>&quot;enabled=on&quot;,end_markers_in_json<span class="operator">=</span><span class="keyword">on</span>;</span><br></pre></td></tr></table></figure></li>
+<li>设置優化器追踪的記憶體大小 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> OPTIMIZER_TRACE_MAX_MEM_SIZE<span class="operator">=</span><span class="number">1000000</span>;</span><br></pre></td></tr></table></figure></li>
+<li>執行自己的SQL <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> host,<span class="keyword">user</span>,plugin <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure></li>
+<li>information_schema.optimizer_trace表 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> trace <span class="keyword">FROM</span> information_schema.OPTIMIZER_TRACE;</span><br></pre></td></tr></table></figure></li>
+<li>導入到一個命名為xx.trace的文件，然後用JSON閱讀器來查看（如果沒有權限，也可直接請DBA幫忙把trace文件輸出給你）。 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TRACE <span class="keyword">INTO</span> DUMPFILE &quot;E:\\test.trace&quot; <span class="keyword">FROM</span> INFORMATION_SCHEMA.OPTIMIZER_TRACE;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>可以重點關注這兩個參數，可以快速定位問題</p>
+<ul>
+<li>rows_estimation：單表的評估</li>
+<li>considered_execution_plans：關聯查詢的評估</li>
+</ul>
+<p><strong>注意：不設定優化器最大容量的话，可能會導致優化器返回的结果不全。</strong></p>
+
+  </div>
+  <div>
+    <script type="text/javascript">
+      document.write(
+        "<iframe scrolling='no' frameborder='0' sandbox='allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation' style='height: 212px; width: 100%;' src='https://button.like.co/in/embed/kw83107/button?referrer=" +
+        encodeURIComponent(location.href.split("?")[0].split("#")[0]) + "'></iframe>");
+    </script>
+  <div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/posts/">Posts</a></li>
+         
+          <li><a href="/categories">Categories</a></li>
+         
+          <li><a href="/tags">Tags</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%98%AF%E7%B4%A2%E5%BC%95%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什麼是索引？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%88%86%E9%A1%9E"><span class="toc-number">3.</span> <span class="toc-text">索引分類</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#InnoDB"><span class="toc-number">3.1.</span> <span class="toc-text">InnoDB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MyISAM"><span class="toc-number">3.2.</span> <span class="toc-text">MyISAM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">索引的基本操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%BA%95%E5%B1%A4%E5%8E%9F%E7%90%86"><span class="toc-number">5.</span> <span class="toc-text">索引的底層原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%82%BA%E4%BB%80%E9%BA%BC%E4%B8%BB%E9%8D%B5%E9%80%9A%E5%B8%B8%E5%BB%BA%E8%AD%B0%E4%BD%BF%E7%94%A8%E8%87%AA%E5%A2%9EID"><span class="toc-number">6.</span> <span class="toc-text">為什麼主鍵通常建議使用自增ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E9%BA%BC%E6%83%85%E6%B3%81%E4%B8%8B%E7%84%A1%E6%B3%95%E5%88%A9%E7%94%A8%E7%B4%A2%E5%BC%95%E5%91%A2"><span class="toc-number">7.</span> <span class="toc-text">什麼情況下無法利用索引呢?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL%E8%90%AC%E8%83%BD%E5%84%AA%E5%8C%96%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text">MySQL萬能優化法</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&text=MySQL索引的基本知識"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&is_video=false&description=MySQL索引的基本知識"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=MySQL索引的基本知識&body=Check out this article: https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&title=MySQL索引的基本知識"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&name=MySQL索引的基本知識&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://karenchuu.github.io/2022/05/2022-2022-05-16-mysql-index-basic/&t=MySQL索引的基本知識"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2022-2023
+    Karen&#39;s Blog
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/posts/">Posts</a></li><!--
+     --><!--
+       --><li><a href="/categories">Categories</a></li><!--
+     --><!--
+       --><li><a href="/tags">Tags</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PPV1MMVXE3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PPV1MMVXE3');
+    </script>
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'karenchu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
