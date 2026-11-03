@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Karen Chu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: soft blue-lavender wash; a frosted hero card (eyebrow, big name, link pills, round avatar), then sections of frosted entry cards with logo tile, title, subtitle and dates. */
+:root {
+  --bg-a: #eef2fa;
+  --bg-b: #f5f3fa;
+  --card: rgba(255, 255, 255, .72);
+  --card-solid: #ffffff;
+  --border: #dbe3f0;
+  --fg: #111827;
+  --muted: #5b6475;
+  --accent: #2f5f9e;
+  --accent-soft: #e6eef9;
+  --shadow: 0 20px 50px -24px rgba(47, 72, 120, .28);
+  --font-display: "Inter", "Noto Sans TC", system-ui, sans-serif;
+  --font-body: "Inter", "Noto Sans TC", system-ui, -apple-system, "PingFang TC", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-a: #0f141d; --bg-b: #15131d; --card: rgba(30, 36, 48, .72); --card-solid: #1c2230;
+    --border: #2b3445; --fg: #eef1f6; --muted: #9aa4b5; --accent: #8fb6ec; --accent-soft: #1f2b40;
+    --shadow: 0 20px 50px -24px rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg-a: #0f141d; --bg-b: #15131d; --card: rgba(30, 36, 48, .72); --card-solid: #1c2230;
+  --border: #2b3445; --fg: #eef1f6; --muted: #9aa4b5; --accent: #8fb6ec; --accent-soft: #1f2b40;
+  --shadow: 0 20px 50px -24px rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; color: var(--fg);
+  background: linear-gradient(160deg, var(--bg-a), var(--bg-b) 60%, var(--bg-a)) fixed, var(--bg-a);
+  font: 16px/1.75 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg-a); }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.wrap { max-width: 920px; margin: 0 auto; }
+
+/* top bar */
+.top { display: flex; justify-content: flex-end; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 20px; }
+nav.main { display: flex; gap: 2px; flex-wrap: wrap; }
+nav.main a { text-decoration: none; padding: 4px 12px; border-radius: 999px; font-size: .92rem; color: var(--muted); }
+nav.main a:hover { color: var(--fg); background: var(--card); }
+.lang { display: flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--card); }
+.lang button { font: inherit; font-size: .8rem; border: 0; background: transparent; color: var(--muted); padding: 3px 12px; cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--accent); color: var(--card-solid); font-weight: 600; }
+
+/* hero card */
+.hero {
+  display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+  background: var(--card); backdrop-filter: blur(12px);
+  border: 1px solid var(--border); border-radius: 32px; box-shadow: var(--shadow);
+  padding: clamp(28px, 6vw, 56px);
+}
+.hero > div { min-width: 0; }
+.eyebrow { font-size: .85rem; letter-spacing: .14em; color: var(--accent); font-weight: 600; margin: 0 0 10px; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.6rem, 8vw, 4.4rem); line-height: 1.02; letter-spacing: -.035em; margin: 0 0 28px; }
+.social { display: flex; gap: 12px; flex-wrap: wrap; }
+.social a {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600;
+  padding: 10px 22px; border-radius: 999px; background: var(--card-solid); border: 1px solid var(--border);
+  box-shadow: 0 6px 16px -10px rgba(47, 72, 120, .4);
+}
+.social a:hover { border-color: var(--accent); }
+.social svg { width: 20px; height: 20px; }
+.social .gh { fill: currentColor; }
+.social .li { fill: #2867b2; }
+.avatar {
+  width: 200px; height: 200px; border-radius: 50%; display: grid; place-items: center; overflow: hidden;
+  background: linear-gradient(135deg, var(--accent-soft), var(--card-solid));
+  color: var(--accent); font-family: var(--font-display); font-size: 4.4rem; font-weight: 800; letter-spacing: -.04em;
+  border: 6px solid var(--card-solid); box-shadow: var(--shadow);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 620px) {
+  .hero { grid-template-columns: 1fr; border-radius: 24px; }
+  .avatar { order: -1; width: 120px; height: 120px; font-size: 2.6rem; }
+}
+
+/* sections */
+main { display: grid; gap: 8px; padding-block: 0 24px; }
+section { padding-top: 48px; scroll-margin-top: 16px; max-width: 760px; }
+h2 { font-size: 1.6rem; font-weight: 700; margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.about p { margin: 0 0 12px; max-width: 65ch; }
+.about ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+
+.cards { display: grid; gap: 14px; }
+.card {
+  display: grid; grid-template-columns: 64px 1fr auto; gap: 20px; align-items: center;
+  background: var(--card); backdrop-filter: blur(12px);
+  border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 20px;
+  padding: 20px 24px;
+}
+.card > div { min-width: 0; }
+.logo {
+  width: 64px; height: 52px; border-radius: 10px; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -.02em; color: #fff;
+}
+.card h3 { margin: 0; font-size: 1.08rem; font-weight: 700; }
+.card .sub { margin: 2px 0 0; color: var(--muted); }
+.card .when { font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.card ul { grid-column: 2 / -1; margin: 4px 0 0; padding-left: 1.1em; color: var(--muted); font-size: .94rem; display: grid; gap: 4px; }
+@media (max-width: 560px) {
+  .card { grid-template-columns: 48px 1fr; gap: 14px; padding: 16px; }
+  .logo { width: 48px; height: 40px; font-size: .95rem; }
+  .card .when { grid-column: 2; }
+  .card ul { grid-column: 1 / -1; }
+}
+
+.skills { display: grid; gap: 10px; }
+.skills div { display: grid; grid-template-columns: 9em 1fr; gap: 12px; }
+.skills dt { font-weight: 700; }
+.skills dd { margin: 0; color: var(--muted); min-width: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: .85rem; padding: 2px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+@media (max-width: 560px) { .skills div { grid-template-columns: 1fr; gap: 4px; } }
+
+.logo.img { background: transparent; }
+.logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.kicker { margin: 0 0 4px; font-size: .85rem; font-weight: 700; letter-spacing: .16em; color: var(--accent); }
+.projects-sec h2 { font-size: clamp(2.2rem, 6vw, 3rem); font-weight: 800; letter-spacing: -.03em; border: 0; padding: 0; margin-bottom: 24px; }
+.projects-sec { max-width: none; }
+.proj {
+  display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 32px; align-items: start;
+  background: var(--card); backdrop-filter: blur(12px); border: 1px solid var(--border);
+  border-radius: 28px; padding: 24px; box-shadow: var(--shadow);
+}
+.proj > div { min-width: 0; }
+.proj .shot { display: block; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+.proj .shot img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.proj h3 { margin: 0 0 8px; font-size: 1.8rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.2; }
+.proj p { margin: 0 0 10px; }
+.btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+.btns a { text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 999px; border: 1px solid var(--border); background: var(--card-solid); }
+.btns a:first-child { background: var(--accent-soft); }
+.btns a:hover { border-color: var(--accent); }
+@media (max-width: 680px) { .proj { grid-template-columns: 1fr; gap: 18px; padding: 18px; } }
+
+/* snapshots */
+.snaps { max-width: none;
+  margin: 56px calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0;
+  padding: 40px max(16px, env(safe-area-inset-left, 0px)) 48px;
+  border-radius: 28px; color: #f3f1ec; text-align: center;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 2px, transparent 2px 9px, rgba(0,0,0,.08) 9px 11px, transparent 11px 23px),
+    repeating-linear-gradient(90deg, transparent 0 158px, rgba(0,0,0,.35) 158px 161px),
+    linear-gradient(180deg, #2c313a, #1f232a);
+}
+.snaps h2 { border: 0; padding: 0; margin: 0 0 6px; font-size: 2rem; color: #ffffff; }
+.snaps .lead { margin: 0 0 28px; color: #cfd3da; }
+.snap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.snap { aspect-ratio: 1; max-width: 100%; border-radius: 14px; overflow: hidden; margin: 0; position: relative;
+  background: linear-gradient(135deg, #3d4552, #2a2f38); border: 1px dashed rgba(255,255,255,.25);
+  display: grid; place-items: center; color: #aab1bd; font-size: .85rem; }
+.snap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 760px) { .snap-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+
+footer { padding-block: 40px 48px; color: var(--muted); font-size: .85rem; }
+
+[data-lang="en"] [lang="zh-Hant"], [data-lang="zh"] [lang="en"] { display: none !important; }
+</style>
+</head>
+<body data-lang="zh">
+
+<div class="wrap">
+  <div class="top">
+    <nav class="main" aria-label="Menu">
+      <a href="#experience"><span lang="zh-Hant">經歷</span><span lang="en">Experience</span></a>
+      <a href="#patents"><span lang="zh-Hant">專利</span><span lang="en">Patents</span></a>
+      <a href="#projects">Projects</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="lang-zh" data-set="zh" aria-pressed="true">中文</button>
+      <button type="button" id="lang-en" data-set="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow"><span lang="zh-Hant">個人網站</span><span lang="en">PERSONAL HOMEPAGE</span></p>
+      <h1>Karen Chu</h1>
+      <div class="social">
+        <a href="https://github.com/karenchuu" target="_blank" rel="noopener">
+          <svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          GitHub
+        </a>
+        <a href="#" id="linkedin-link">
+          <svg class="li" viewBox="0 0 16 16" aria-hidden="true"><path d="M13.6 0H2.4A2.4 2.4 0 000 2.4v11.2A2.4 2.4 0 002.4 16h11.2a2.4 2.4 0 002.4-2.4V2.4A2.4 2.4 0 0013.6 0zM4.9 13.4H2.6V6h2.3v7.4zM3.7 5a1.3 1.3 0 110-2.7 1.3 1.3 0 010 2.7zm9.7 8.4h-2.3V9.8c0-.9 0-2-1.2-2s-1.4 1-1.4 1.9v3.7H6.2V6h2.2v1h.1c.3-.6 1.1-1.2 2.2-1.2 2.4 0 2.8 1.6 2.8 3.6v4z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+    <div class="avatar" role="img" aria-label="Karen Chu">KC</div>
+  </header>
+
+  <main>
+    <section id="experience">
+      <h2><span lang="zh-Hant">工作經歷</span><span lang="en">Work experience</span></h2>
+      <div class="cards">
+        <article class="card">
+          <div class="logo" style="background:#ff4b5c" aria-hidden="true">17</div>
+          <div>
+            <h3>17LIVE</h3>
+            <p class="sub"><span lang="zh-Hant">資深後端工程師</span><span lang="en">Senior Backend Engineer</span></p>
+          </div>
+          <span class="when">2023 –</span>
+          <ul lang="zh-Hant">
+            <li>設計訂閱制系統，並用 GCP Pub/Sub 建立共用的 ML 內容審核框架</li>
+            <li>從 15.2 億筆的 MongoDB 集合封存 3,040 萬筆資料，預估每月省下 US$1,685</li>
+            <li>重新設計 Redis 快取，置頂訊息的快取大小減少 99.5%</li>
+            <li>做了 AI Agent Skills，把開 Jira 票的時間從半天縮到 10 分鐘</li>
+          </ul>
+          <ul lang="en">
+            <li>Designed a subscription system and a shared ML moderation framework on GCP Pub/Sub</li>
+            <li>Archived 30.4M records from a 1.52B-record MongoDB collection, saving a projected US$1,685/month</li>
+            <li>Redesigned Redis caching for pinned messages, cutting cached payload size by 99.5%</li>
+            <li>Built AI Agent Skills that cut Jira ticket planning from half a day to 10 minutes</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="logo" style="background:#1f6feb" aria-hidden="true">F</div>
+          <div>
+            <h3>Fazz</h3>
+            <p class="sub"><span lang="zh-Hant">後端工程師（遠端）</span><span lang="en">Backend Engineer (remote)</span></p>
+          </div>
+          <span class="when">2022 – 2023</span>
+          <ul lang="zh-Hant">
+            <li>開發發卡核心服務，支援實體與虛擬卡，串接多錢包與跨境轉帳</li>
+          </ul>
+          <ul lang="en">
+            <li>Built the core card-issuing service for physical and virtual cards, with multi-wallet and cross-border transfers</li>
+          </ul>
+        </article>
+        <article class="card">
+          <div class="logo img" aria-hidden="true"><img src="img/esun.png" alt=""></div>
+          <div>
+            <h3><span lang="zh-Hant">玉山銀行</span><span lang="en">E.SUN Bank</span></h3>
+            <p class="sub"><span lang="zh-Hant">資深軟體工程師 · 軟體工程師</span><span lang="en">Senior Software Engineer · Software Engineer</span></p>
+          </div>
+          <span class="when">2017 – 2022</span>
+          <ul lang="zh-Hant">
+            <li>帶 3 人團隊從零打造 OpenAPI 與 PartnerAPI 平台，玉山成為台灣第一家與數位券商自動綁定交割戶的銀行</li>
+            <li>東京奧運跨境支付架構，讓台灣用戶用本地電子錢包在海外付款</li>
+            <li>3,000 萬筆資料表的報表查詢從 10 秒降到 1 秒，排程從 1 小時降到 5 分鐘</li>
+          </ul>
+          <ul lang="en">
+            <li>Led a team of 3 to build the OpenAPI and PartnerAPI platforms, making E.SUN the first bank in Taiwan to automate settlement-account binding with a digital brokerage</li>
+            <li>Designed the Tokyo Olympics cross-border payment architecture for Taiwanese e-wallets</li>
+            <li>Cut report queries on a 30M-row table from 10s to 1s and a scheduled job from 1 hour to 5 minutes</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2><span lang="zh-Hant">教育經歷</span><span lang="en">Education</span></h2>
+      <div class="cards">
+        <article class="card">
+          <div class="logo" style="background:#7a2431" aria-hidden="true">KUAS</div>
+          <div>
+            <h3><span lang="zh-Hant">國立高雄應用科技大學</span><span lang="en">National Kaohsiung University of Applied Sciences</span></h3>
+            <p class="sub"><span lang="zh-Hant">資訊管理學士</span><span lang="en">B.S. in Information Management</span></p>
+          </div>
+          <span class="when">2012 – 2016</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="patents">
+      <h2><span lang="zh-Hant">專利</span><span lang="en">Patents</span></h2>
+      <div class="cards">
+        <article class="card">
+          <div class="logo" style="background:#5a6b85" aria-hidden="true">TW</div>
+          <div>
+            <h3><span lang="zh-Hant">行動支付管理系統</span><span lang="en">Mobile Payment Management System</span></h3>
+            <p class="sub"><span lang="zh-Hant">共同發明人 · 發明專利 I718605、新型專利 M588302。統一的 QR code 支付閘道，服務 4,000+ 商家、每日 10 萬筆以上交易</span><span lang="en">Co-inventor · Invention I718605, Utility Model M588302. A unified QR-code payment gateway serving 4,000+ merchants and 100,000+ daily transactions</span></p>
+          </div>
+          <span class="when">2021</span>
+        </article>
+        <article class="card">
+          <div class="logo" style="background:#5a6b85" aria-hidden="true">TW</div>
+          <div>
+            <h3><span lang="zh-Hant">跨金融機構雙向開戶服務系統</span><span lang="en">Two-Way Account Opening Across Financial Institutions</span></h3>
+            <p class="sub"><span lang="zh-Hant">共同發明人 · 新型專利 M639738。跨機構共享申請資料與審核結果，簡化證券與交割戶聯合開戶</span><span lang="en">Co-inventor · Utility Model M639738. Shares application data and approvals across institutions to streamline linked securities and settlement accounts</span></p>
+          </div>
+          <span class="when">2023</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2><span lang="zh-Hant">技能</span><span lang="en">Skills</span></h2>
+      <dl class="skills">
+        <div><dt><span lang="zh-Hant">程式語言</span><span lang="en">Languages</span></dt><dd class="chips"><span class="chip">Go</span><span class="chip">C#</span><span class="chip">Java</span></dd></div>
+        <div><dt><span lang="zh-Hant">資料庫／快取</span><span lang="en">Data</span></dt><dd class="chips"><span class="chip">Redis</span><span class="chip">MongoDB</span><span class="chip">MySQL</span><span class="chip">SQL Server</span></dd></div>
+        <div><dt><span lang="zh-Hant">雲端／基礎設施</span><span lang="en">Infrastructure</span></dt><dd class="chips"><span class="chip">GCP Pub/Sub</span><span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">ArgoCD</span><span class="chip">CircleCI</span><span class="chip">Datadog</span></dd></div>
+      </dl>
+    </section>
+
+    <section id="projects" class="projects-sec">
+      <p class="kicker">PROJECTS</p>
+      <h2>Projects</h2>
+      <article class="proj">
+        <a class="shot" href="https://app.murmoapp.com" target="_blank" rel="noopener"><img src="img/murmo.jpg" alt="Murmo 首頁截圖" loading="lazy"></a>
+        <div>
+          <h3>Murmo</h3>
+          <p lang="zh-Hant">AI 錄音筆記 app，說過的話自動變成筆記。</p>
+          <p lang="en">An AI note-taker that turns what you hear into notes.</p>
+          <p><strong><span lang="zh-Hant">核心功能：</span><span lang="en">Core features:</span></strong> <span lang="zh-Hant">邊錄邊出逐字稿，一鍵整理成摘要、重點、待辦和複習卡；Google 登入、雲端同步錄音檔。</span><span lang="en">Live transcription, one-tap summaries, key points, to-dos and review cards; Google sign-in and cloud-synced audio.</span></p>
+          <p><strong><span lang="zh-Hant">技術：</span><span lang="en">Stack:</span></strong> Cloudflare Workers · R2 · Supabase · Whisper · PWA</p>
+          <div class="btns">
+            <a href="https://app.murmoapp.com" target="_blank" rel="noopener">Live preview ↗</a>
+            <a href="https://murmoapp.com" target="_blank" rel="noopener">Website ↗</a>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <section class="snaps" id="snapshots">
+    <h2>Snapshots</h2>
+    <p class="lead"><span lang="zh-Hant">生活裡的一些片刻</span><span lang="en">Capturing memories and experiences</span></p>
+    <div class="snap-grid">
+      <figure class="snap"><span lang="zh-Hant">照片 1</span><span lang="en">Photo 1</span></figure>
+      <figure class="snap"><span lang="zh-Hant">照片 2</span><span lang="en">Photo 2</span></figure>
+      <figure class="snap"><span lang="zh-Hant">照片 3</span><span lang="en">Photo 3</span></figure>
+      <figure class="snap"><span lang="zh-Hant">照片 4</span><span lang="en">Photo 4</span></figure>
+    </div>
+  </section>
+
+  <footer>© 2026 Karen Chu</footer>
+</div>
+
+<script>
+(function () {
+  var body = document.body;
+  body.dataset.lang = body.dataset.lang || 'zh';
+  function setLang(l) {
+    body.dataset.lang = l;
+    document.documentElement.lang = l === 'en' ? 'en' : 'zh-Hant';
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.set === l));
+    });
+    try { localStorage.setItem('lang', l); } catch (e) {}
+  }
+  document.querySelectorAll('.lang button').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.set); });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) {}
+  if (saved === 'en' || saved === 'zh') setLang(saved);
+})();
+</script>
+</body>
+</html>
