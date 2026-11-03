@@ -170,3 +170,4 @@ h2 { font-size: 1.9rem; font-weight: 800; letter-spacing: -.025em; margin: 0 0 2
 footer { padding-block: 40px 48px; color: var(--muted); font-size: .85rem; }
 
 [data-lang="en"] [lang="zh-Hant"], [data-lang="zh"] [lang="en"] { display: none !important; }
+.about-text { margin: 0; font-size: 1.1rem; line-height: 1.8; color: var(--fg); }
