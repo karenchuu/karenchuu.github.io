@@ -143,6 +143,8 @@ h2 { font-size: 1.9rem; font-weight: 800; letter-spacing: -.025em; margin: 0 0 2
 .btns a { text-decoration: none; font-weight: 600; padding: 9px 22px; border-radius: 999px; border: 1px solid var(--border); background: var(--card-solid); }
 .btns a:first-child { background: var(--accent-soft); }
 .btns a:hover { border-color: var(--accent); }
+.btns > span { padding: 9px 22px; border-radius: 999px; border: 1px dashed var(--border); color: var(--muted); font-weight: 600; }
+.projects-sec .proj + .proj { margin-top: 24px; }
 @media (max-width: 680px) { .proj { grid-template-columns: 1fr; gap: 18px; padding: 18px; } }
 
 /* snapshots */
