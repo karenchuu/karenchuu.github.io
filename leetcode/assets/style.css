@@ -139,7 +139,7 @@ h2{font-size:20px;margin:0 0 14px}
 .dice-card.done{background:var(--lime-s);animation:land .4s cubic-bezier(.3,1.6,.5,1)}
 @keyframes flip{from{transform:rotateX(80deg);opacity:.3}to{transform:none;opacity:1}}
 @keyframes land{0%{transform:scale(.9)}100%{transform:scale(1)}}
-.dice-btn{border:0;cursor:pointer;font:inherit;font-weight:700}
+.dice-btn{border:0;cursor:pointer;font:inherit;font-weight:700;display:flex;align-items:center;gap:6px;width:fit-content;margin:0 auto}
 .dice-btn.roll{animation:shake .5s ease}
 @keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
 .ring-box{position:relative;text-align:center}
