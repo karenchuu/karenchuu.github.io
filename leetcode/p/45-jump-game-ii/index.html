@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>45. Jump Game II · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff medium">Medium</span> <a class="tag" href="../../t/dynamic-programming/">Dynamic Programming</a> <a class="tag" href="../../t/greedy/">Greedy</a> <span class="date">📅 2022-07-31</span></div>
+<h1>45. Jump Game II</h1><div class='comp'>考過的公司：Amazon、Google、tiktok</div><div class="actions"><a class="btn" href="https://leetcode.com/problems/jump-game-ii/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p><img src="../../img/f795aa30e7a3.webp" alt="" loading="lazy"></p>
+<p><img src="../../img/5365ece73e62.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<hr />
+<div class="hl"><pre><span></span><code>
+</code></pre></div>
+
+<h1>Solution #1 [DP]</h1>
+<p>Runtime: 394 ms, faster than 6.98% of Java online submissions for Jump Game II.
+Memory Usage: 49.8 MB, less than 25.73% of Java online submissions for Jump Game II.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">jump</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">dp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">dp</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100000</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">min</span><span class="p">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">dp</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">dp</span><span class="o">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li>很像最长子序列，同样采用一维dp</li>
+<li>狀態表示：到達 i 的最少步數，f(i) = f(j)+1;</li>
+</ul>
+</li>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>time: O(n^2)</li>
+<li>space: O(n)</li>
+</ul>
+</li>
+</ul>
+<h1>Solution #2 [Greedy]</h1>
+<p><a href="https://blog.justin0u0.com/LeetCode-Jump-Game-II/">https://blog.justin0u0.com/LeetCode-Jump-Game-II/</a></p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">jump</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">steps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">iL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">iR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// iR &gt;= n - 1，代表已經可以走到最後一格</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">iR</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="kt">int</span><span class="w"> </span><span class="n">next_iR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">          </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iL</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">iR</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// 從 [iL, iR] 出發找下一步的範圍</span>
+<span class="w">              </span><span class="n">next_iR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">max</span><span class="p">(</span><span class="n">next_iR</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">          </span><span class="n">iL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iR</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">// 下一個 iL</span>
+<span class="w">          </span><span class="n">iR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next_iR</span><span class="p">;</span><span class="w"> </span><span class="c1">// 下一個 iR</span>
+<span class="w">          </span><span class="n">steps</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">steps</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li><a href="https://blog.justin0u0.com/LeetCode-Jump-Game-II/"><strong>LeetCode 45 - Jump Game II</strong></a></li>
+<li>用 i 遍歷整個數組，將每次遍歷到的數，在下一個可以跳的步數中可以跳最遠的</li>
+<li>这里要注意一个细节，就是 for 循环中，i &lt; nums.length - 1，少了末尾。因为开始的时候边界是第 0 个位置，steps 已经加 1 了。如下图，如果最后一步刚好跳到了末尾，此时 steps 其实不用加 1 了。如果是 i &lt; nums.length，i 遍历到最后的时候，会进入 if 语句中，steps 会多加 1 。</li>
+</ul>
+</li>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>time:O(n)</li>
+<li>space:O(1)</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

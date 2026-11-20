@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>240. Search a 2D Matrix II · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff medium">Medium</span> <a class="tag" href="../../t/array/">Array</a> <a class="tag" href="../../t/binary-search/">Binary Search</a> <a class="tag" href="../../t/divide-and-conquer/">Divide and Conquer</a> <a class="tag" href="../../t/matrix/">Matrix</a> <span class="date">📅 2022-02-27</span></div>
+<h1>240. Search a 2D Matrix II</h1><div class='comp'>考過的公司：Bytedance</div><div class="actions"><a class="btn" href="https://leetcode.com/problems/search-a-2d-matrix-ii/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p>Write an efficient algorithm that searches for a value <code>target</code> in an <code>m x n</code> integer matrix <code>matrix</code>. This matrix has the following properties:</p>
+<ul>
+<li>Integers in each row are sorted in ascending from left to right.</li>
+<li>Integers in each column are sorted in ascending from top to bottom.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<p><img alt="" src="https://assets.leetcode.com/uploads/2020/11/24/searchgrid2.jpg" /></p>
+<div class="hl"><pre><span></span><code>Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+Output: true
+</code></pre></div>
+
+<p><strong>Example 2:</strong></p>
+<p><img alt="" src="https://assets.leetcode.com/uploads/2020/11/24/searchgrid.jpg" /></p>
+<div class="hl"><pre><span></span><code>Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
+Output: false
+</code></pre></div>
+
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>m == matrix.length</code></li>
+<li><code>n == matrix[i].length</code></li>
+<li><code>1 &lt;= n, m &lt;= 300</code></li>
+<li><code>109 &lt;= matrix[i][j] &lt;= 109</code></li>
+<li>All the integers in each row are <strong>sorted</strong> in ascending order.</li>
+<li>All the integers in each column are <strong>sorted</strong> in ascending order.</li>
+<li><code>10^9 &lt;= target &lt;= 10^9</code></li>
+</ul>
+</details>
+<h1>✍🏽 My Solution</h1>
+<hr />
+<div class="hl"><pre><span></span><code>
+</code></pre></div>
+
+<h1>Solution #1 [找規律]</h1>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">searchMatrix</span><span class="p">(</span><span class="kt">int</span><span class="o">[][]</span><span class="w"> </span><span class="n">matrix</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">matrix</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">matrix</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matrix</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">matrix</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">matrix</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">row</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">target</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">matrix</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">col</span><span class="o">--</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li>
+<p>数组从左到右和从上到下都是升序的，如果从右上角出发开始遍历呢？</p>
+<p>会发现每次都是向左数字会变小，向下数字会变大，有点和二分查找树相似。二分查找树的话，是向左数字变小，向右数字变大。</p>
+<p>所以我们可以把 <code>target</code> 和当前值比较。</p>
+<ul>
+<li>如果 <code>target</code> 的值大于当前值，那么就向下走。</li>
+<li>如果 <code>target</code> 的值小于当前值，那么就向左走。</li>
+<li>如果相等的话，直接返回 <code>true</code> 。</li>
+</ul>
+<p>也可以换个角度思考。</p>
+<p>如果 <code>target</code> 的值小于当前值，也就意味着当前值所在的列肯定不会存在 <code>target</code> 了，可以把当前列去掉，从新的右上角的值开始遍历。</p>
+<p>同理，如果 <code>target</code> 的值大于当前值，也就意味着当前值所在的行肯定不会存在 <code>target</code> 了，可以把当前行去掉，从新的右上角的值开始遍历。</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="hl"><pre><span></span><code>[1,   4,  7, 11, 15],
+[2,   5,  8, 12, 19],
+[3,   6,  9, 16, 22],
+[10, 13, 14, 17, 24],
+[18, 21, 23, 26, 30]
+
+如果 target  = 9，如果我们从 15 开始遍历, cur = 15
+
+target &lt; 15, 去掉当前列, cur = 11
+[1,   4,  7, 11],
+[2,   5,  8, 12],
+[3,   6,  9, 16],
+[10, 13, 14, 17],
+[18, 21, 23, 26]
+
+target &lt; 11, 去掉当前列, cur = 7
+[1,   4,  7],
+[2,   5,  8],
+[3,   6,  9],
+[10, 13, 14],
+[18, 21, 23]
+
+target &gt; 7, 去掉当前行, cur = 8
+[2,   5,  8],
+[3,   6,  9],
+[10, 13, 14],
+[18, 21, 23]
+
+target &gt; 8, 去掉当前行, cur = 9, 遍历结束
+[3,   6,  9],
+[10, 13, 14],
+[18, 21, 23]
+</code></pre></div>
+
+<ul>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>time: O(m+n)</li>
+<li>space: O(1)</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

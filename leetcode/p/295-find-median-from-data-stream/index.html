@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>295. Find Median from Data Stream · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff hard">Hard</span> <a class="tag" href="../../t/data-stream/">Data Stream</a> <a class="tag" href="../../t/design/">Design</a> <a class="tag" href="../../t/heap-priority-queue/">Heap (Priority Queue)</a> <a class="tag" href="../../t/sorting/">Sorting</a> <a class="tag" href="../../t/two-pointers/">Two Pointers</a> <span class="date">📅 2022-04-28</span></div>
+<h1>295. Find Median from Data Stream</h1><div class='comp'>考過的公司：Amazon、Bytedance</div><div class="actions"><a class="btn" href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p><img src="../../img/c9bb1ad2ed17.webp" alt="" loading="lazy"></p>
+<p><img src="../../img/0b2cddd39daa.webp" alt="" loading="lazy"></p>
+<p><img src="../../img/a513ae79857b.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<p>Runtime: 111 ms, faster than 90.73% of Java online submissions for Find Median from Data Stream.
+Memory Usage: 71.4 MB, less than 79.56% of Java online submissions for Find Median from Data Stream.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">MedianFinder</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">minQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">((</span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">o2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">o1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">o2</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">((</span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">o2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">o2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">o1</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">MedianFinder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addNum</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">minQueue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">// 如果n是奇數，大頂堆要維持有n/2+1的數據，小頂堆有n/2個數據</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Integer</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">            </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">                </span><span class="c1">// 如果小頂堆元素 比 大頂堆元素少2，把大頂堆的元素加到小頂堆</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">minQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Integer</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">            </span><span class="n">minQueue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">findMedian</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">())</span><span class="o">/</span><span class="mf">2f</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>🧠 Thought Process</h3>
+<ul>
+<li><strong>Why did I choose this particular implementation?</strong><ul>
+<li>幾乎是照抄王爭的思路</li>
+<li>使用兩個優先隊列、大頂堆跟小頂堆來維護中位數<ul>
+<li>當數據流元素數量為偶數，代表兩個堆的元素相同，取兩個頂堆的元素相加除以2</li>
+<li>當數據流元素數量為奇數，大頂多比小頂堆個數多1，直接取大頂堆堆頂元素</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>What mistakes did I make?</strong><ul>
+<li>分不清poll跟pull</li>
+</ul>
+</li>
+</ul>
+<h1>Solution #1 [王爭-優先隊列]</h1>
+<p>Runtime: 111 ms, faster than 90.73% of Java online submissions for Find Median from Data Stream.
+Memory Usage: 71.4 MB, less than 79.56% of Java online submissions for Find Median from Data Stream.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">MedianFinder</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">minQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">((</span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">o2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">o1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">o2</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">maxQueue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriorityQueue</span><span class="o">&lt;&gt;</span><span class="p">((</span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">o2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">o2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">o1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">MedianFinder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addNum</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">minQueue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">num</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Integer</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">            </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">minQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Integer</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">            </span><span class="n">minQueue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">findMedian</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">size</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 奇數（因為大小不同）</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">maxQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// 偶數就取這兩個堆的堆頂除以2</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">maxQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">minQueue</span><span class="p">.</span><span class="na">peek</span><span class="p">())</span><span class="o">/</span><span class="mf">2f</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Your MedianFinder object will be instantiated and called as such:</span>
+<span class="cm"> * MedianFinder obj = new MedianFinder();</span>
+<span class="cm"> * obj.addNum(num);</span>
+<span class="cm"> * double param_2 = obj.findMedian();</span>
+<span class="cm"> */</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li>
+<p><strong>How does their solution work?</strong></p>
+<ul>
+<li>
+<p><strong>要一直維護具有以下特性的兩個堆：</strong></p>
+<ul>
+<li>一個大頂堆，一個小頂堆</li>
+<li>
+<p>每個堆中元素個數接近n/2（因為n有可能是偶數或奇數）：</p>
+<p>如果n是偶數，兩個堆中的數據個數都是n/2；</p>
+<p>如果n是奇數，大頂堆有n/2+1的數據，小頂堆有n/2個數據；（好處是大頂堆堆頂元素永遠是中位數）</p>
+</li>
+<li>
+<p>維護大頂堆中的元素都小於等於小頂堆中的元素。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>那麼，大頂堆中堆頂的元素就是中位數。O(1)</strong></p>
+<p><strong>在插入數據時，如何維護兩個堆繼續滿足上述特性呢？ 插入time為O(logn)</strong></p>
+<p><u>如果新數據小於等於大頂堆的堆頂元素，就將這個新數據插入大頂堆，否則，插入到小頂堆。</u></p>
+<p>不過此時就有可能出現兩個堆中的數據個數不符合前面約定（第二點）。⇒ 我們通過從一個堆中不停地將堆頂元素移動到另一個堆，通過這樣的調整，讓兩個堆中的數據個數滿足前面的約定。</p>
+</li>
+<li>
+<p><strong>What is the space/time complexity of their solution?</strong></p>
+<ul>
+<li>time<ul>
+<li>addNum: O(logn)，其中 n 为累计添加的数的数量。</li>
+<li>findMedian: O(1)。</li>
+</ul>
+</li>
+<li>space: O(n) 優先隊列的開銷</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

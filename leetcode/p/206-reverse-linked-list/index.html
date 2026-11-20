@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>206. Reverse Linked List · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff easy">Easy</span> <a class="tag" href="../../t/linked-list/">Linked List</a> <span class="date">📅 2022-06-22</span></div>
+<h1>206. Reverse Linked List</h1><div class='comp'>考過的公司：Bytedance</div><div class="actions"><a class="btn" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><p><strong>Reverse Linked List</strong></p>
+<details>
+<summary>Question</summary>
+<p>Given the head of a singly linked list, reverse the list, and return the reversed list.</p>
+<p><img src="../../img/c3b4b02a4999.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<p>Runtime: 0 ms, faster than 100.00% of Java online submissions for Reverse Linked List.
+Memory Usage: 42.7 MB, less than 62.57% of Java online submissions for Reverse Linked List.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">cur</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ListNode</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cur</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">            </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur</span><span class="p">;</span>
+<span class="w">            </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>🧠 Thought Process</h3>
+<ul>
+<li><strong>Why did I choose this particular implementation?</strong><ul>
+<li>看leetcode題解</li>
+</ul>
+</li>
+<li><strong>What is the time/space complexity of my solution? How do I know?</strong><ul>
+<li>time: O(n)</li>
+<li>space: O(1)</li>
+</ul>
+</li>
+<li><strong>What mistakes did I make?</strong><ul>
+<li>應該要寫 prev = curr ，但是都會寫錯成 prev = prev.next;</li>
+</ul>
+</li>
+<li><strong>What can I do next time to make sure I don't make the same mistakes again?</strong><ul>
+<li>多練習囉</li>
+</ul>
+</li>
+</ul>
+<h1>Solution #1 [王爭-創建結果鏈表，插入頭節點]</h1>
+<p>Runtime: 0 ms, faster than 100.00% of Java online submissions for Reverse Linked List.
+Memory Usage: 42.7 MB, less than 62.57% of Java online submissions for Reverse Linked List.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ListNode</span><span class="w"> </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">            </span><span class="n">p</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="w">            </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+<span class="w">            </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li>創建結果鏈表，插入頭節點</li>
+</ul>
+</li>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>time: O(n)</li>
+<li>space: O(1)</li>
+</ul>
+</li>
+</ul>
+<h1>Solution #2 [Recursive]</h1>
+<p>Runtime: 1 ms, faster than 10.79% of Java online submissions for Reverse Linked List.</p>
+<p>Memory Usage: 42.6 MB, less than 68.08% of Java online submissions for Reverse Linked List.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="c1">//这里就是最后一个节点</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reverseList</span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">);</span><span class="w"> </span><span class="c1">// head.next 作为剩余部分的头指针</span>
+<span class="w">        </span><span class="c1">// head.next 代表新链表的尾，将它的 next 置为 head，就是将 head 加到末尾了。</span>
+<span class="w">        </span><span class="c1">//这里请配合动画演示理解</span>
+<span class="w">            </span><span class="c1">//如果链表是 1-&gt;2-&gt;3-&gt;4-&gt;5，那么此时的newHead就是5</span>
+<span class="w">          </span><span class="c1">//而head是4，head的下一个是5，下下一个是空</span>
+<span class="w">            </span><span class="c1">//所以head.next.next 就是5-&gt;4</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">//防止链表循环，需要将head.next设置为空</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">//每层递归函数都返回newHead，也就是最后一个节点</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

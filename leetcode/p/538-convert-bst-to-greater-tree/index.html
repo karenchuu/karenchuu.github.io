@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>538. Convert BST to Greater Tree · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff medium">Medium</span> <a class="tag" href="../../t/binary-search-tree/">Binary Search Tree</a> <a class="tag" href="../../t/binary-tree/">Binary Tree</a> <a class="tag" href="../../t/dfs/">DFS</a> <a class="tag" href="../../t/tree/">Tree</a> <span class="date">📅 2022-04-20</span></div>
+<h1>538. Convert BST to Greater Tree</h1><div class="actions"><a class="btn" href="https://leetcode.com/problems/convert-bst-to-greater-tree/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p><img src="../../img/148328d627b8.webp" alt="" loading="lazy"></p>
+<p><img src="../../img/55f0818b26a4.webp" alt="" loading="lazy"></p>
+<p><img src="../../img/e71c4eb5890e.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<p>Runtime: 1 ms, faster than 38.70% of Java online submissions for Convert BST to Greater Tree.
+Memory Usage: 49.2 MB, less than 19.13% of Java online submissions for Convert BST to Greater Tree.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TreeNode</span><span class="w"> </span><span class="nf">convertBST</span><span class="p">(</span><span class="n">TreeNode</span><span class="w"> </span><span class="n">root</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">root</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">inorder</span><span class="p">(</span><span class="n">TreeNode</span><span class="w"> </span><span class="n">root</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">root</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="n">convertBST</span><span class="p">(</span><span class="n">root</span><span class="p">.</span><span class="na">right</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">root</span><span class="p">.</span><span class="na">val</span><span class="p">;</span>
+<span class="w">        </span><span class="n">root</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">=</span><span class="n">sum</span><span class="p">;</span>
+<span class="w">        </span><span class="n">convertBST</span><span class="p">(</span><span class="n">root</span><span class="p">.</span><span class="na">left</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>🧠 Thought Process</h3>
+<ul>
+<li><strong>Why did I choose this particular implementation?</strong><ul>
+<li>看王爭的題解寫的</li>
+<li>本題目要求我們將每個節點的值修改為原來的節點值加上所有大於他的節點值之和。</li>
+<li>這樣我們只需要反序中序遍歷該二叉搜索樹，紀錄過程中的節點之和，並不斷更新當前遍歷到的節點的節點值，即可得到題目要求的累加樹</li>
+</ul>
+</li>
+<li><strong>What is the time/space complexity of my solution? How do I know?</strong><ul>
+<li>time: O(n) 節點個樹</li>
+<li>space: O(n)</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

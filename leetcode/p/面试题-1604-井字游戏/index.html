@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>面试题 16.04. 井字游戏 · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff medium">Medium</span> <a class="tag" href="../../t/array/">Array</a> <a class="tag" href="../../t/counting/">Counting</a> <a class="tag" href="../../t/matrix/">Matrix</a> <span class="date">📅 2022-02-27</span></div>
+<h1>面试题 16.04. 井字游戏</h1><div class="actions"><a class="btn" href="https://leetcode-cn.com/problems/tic-tac-toe-lcci/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p>Design an algorithm to figure out if someone has won a game of tic-tac-toe. Input is a string array of size N x N, including characters " ", "X" and "O", where " " represents a empty grid.</p>
+<p>The rules of tic-tac-toe are as follows:</p>
+<ul>
+<li>Players place characters into an empty grid(" ") in turn.</li>
+<li>The first player always place character "O", and the second one place "X".</li>
+<li>Players are only allowed to place characters in empty grid. Replacing a character is not allowed.</li>
+<li>If there is any row, column or diagonal filled with N same characters, the game ends. The player who place the last charater wins.</li>
+<li>When there is no empty grid, the game ends.</li>
+<li>If the game ends, players cannot place any character further.</li>
+</ul>
+<p>If there is any winner, return the character that the winner used. If there's a draw, return "Draw". If the game doesn't end and there is no winner, return "Pending".</p>
+<p>Example 1:</p>
+<div class="hl"><pre><span></span><code><span class="nl">Input</span><span class="p">:</span><span class="w">  </span><span class="n">board</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s">"O X"</span><span class="p">,</span><span class="s">" XO"</span><span class="p">,</span><span class="s">"X O"</span><span class="o">]</span>
+<span class="nl">Output</span><span class="p">:</span><span class="w">  </span><span class="s">"X"</span>
+</code></pre></div>
+
+<p>Example 2:</p>
+<div class="hl"><pre><span></span><code><span class="nl">Input</span><span class="p">:</span><span class="w">  </span><span class="n">board</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s">"OOX"</span><span class="p">,</span><span class="s">"XXO"</span><span class="p">,</span><span class="s">"OXO"</span><span class="o">]</span>
+<span class="nl">Output</span><span class="p">:</span><span class="w">  </span><span class="s">"Draw"</span>
+<span class="nl">Explanation</span><span class="p">:</span><span class="w">  </span><span class="n">no</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">wins</span><span class="w"> </span><span class="n">and</span><span class="w"> </span><span class="n">no</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="n">grid</span><span class="w"> </span><span class="n">left</span>
+</code></pre></div>
+
+<p>Example 3:</p>
+<div class="hl"><pre><span></span><code><span class="nl">Input</span><span class="p">:</span><span class="w">  </span><span class="n">board</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="s">"OOX"</span><span class="p">,</span><span class="s">"XXO"</span><span class="p">,</span><span class="s">"OX "</span><span class="o">]</span>
+<span class="nl">Output</span><span class="p">:</span><span class="w">  </span><span class="s">"Pending"</span>
+<span class="nl">Explanation</span><span class="p">:</span><span class="w">  </span><span class="n">no</span><span class="w"> </span><span class="n">player</span><span class="w"> </span><span class="n">wins</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">there</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">still</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="n">grid</span>
+</code></pre></div>
+
+<p>Note:</p>
+<ul>
+<li><code>1 &lt;= board.length == board[i].length &lt;= 100</code></li>
+<li>Input follows the rules.</li>
+</ul>
+</details>
+<h1>✍🏽 My Solution</h1>
+<hr />
+<div class="hl"><pre><span></span><code>
+</code></pre></div>
+
+<h1>Solution #1 [Counting]</h1>
+<hr />
+<div class="hl"><pre><span></span><code><span class="c1">// 思路：</span>
+<span class="c1">// 看有沒有人贏(行、列、對角是同一個符號) 看是X還是O</span>
+<span class="c1">// 沒有人贏 如果能繼續下(有空格) return Pending</span>
+<span class="c1">// 沒有人贏 不能繼續下(沒空格) return Draw</span>
+<span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">tictactoe</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">board</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 列總和</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 行總和</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 左斜線</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 右斜線</span>
+<span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// 紀錄有沒有空格</span>
+
+<span class="w">        </span><span class="c1">// 行、列、對角線 counting</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// 每次循環完歸0</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">row</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">board</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">charAt</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+<span class="w">                </span><span class="n">col</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">board</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="na">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">board</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">charAt</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">' '</span><span class="p">)</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="sc">'X'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="sc">'X'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"X"</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="sc">'O'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="sc">'O'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"O"</span><span class="p">;</span>
+
+<span class="w">            </span><span class="n">left</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">board</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">charAt</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">            </span><span class="n">right</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">board</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">charAt</span><span class="p">(</span><span class="n">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 0,2 1,1 2,0</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="sc">'X'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="sc">'X'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"X"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="sc">'O'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="sc">'O'</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"O"</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Pending"</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Draw"</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li>針對行列跟對角線進行計數，如果等於字串長度代表有勝者</li>
+</ul>
+</li>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>time: O(n^2)</li>
+<li>space: O(1)</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

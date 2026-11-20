@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>207. Course Schedule · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff medium">Medium</span> <a class="tag" href="../../t/bfs/">BFS</a> <a class="tag" href="../../t/backtracking/">Backtracking</a> <a class="tag" href="../../t/hash-table/">Hash Table</a> <a class="tag" href="../../t/string/">String</a> <span class="date">📅 2022-05-19</span></div>
+<h1>207. Course Schedule</h1><div class='comp'>考過的公司：Amazon、Bytedance、Google、tiktok</div><div class="actions"><a class="btn" href="https://leetcode.com/problems/course-schedule/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p><img src="../../img/80e4f279e464.webp" alt="" loading="lazy"></p>
+<p><img src="../../img/6d33681224ca.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<p>Runtime: 7 ms, faster than 61.99% of Java online submissions for Course Schedule.</p>
+<p>Memory Usage: 47.9 MB, less than 55.84% of Java online submissions for Course Schedule.</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">canFinish</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">numCourses</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">[][]</span><span class="w"> </span><span class="n">prerequisites</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;[]</span><span class="w"> </span><span class="n">graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">[</span><span class="n">numCourses</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">inDegree</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">numCourses</span><span class="o">]</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">edge</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">prerequisites</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">graph</span><span class="o">[</span><span class="n">edge</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">graph</span><span class="o">[</span><span class="n">edge</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">            </span><span class="n">inDegree</span><span class="o">[</span><span class="n">edge</span><span class="o">[</span><span class="mi">0</span><span class="o">]]++</span><span class="p">;</span>
+<span class="w">            </span><span class="n">graph</span><span class="o">[</span><span class="n">edge</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">edge</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numCourses</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">inDegree</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">queue</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Integer</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">poll</span><span class="p">();</span>
+<span class="w">            </span><span class="n">numCourses</span><span class="o">--</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">graph</span><span class="o">[</span><span class="n">e</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">graph</span><span class="o">[</span><span class="n">e</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">--</span><span class="n">inDegree</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">offer</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">numCourses</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>🧠 Thought Process</h3>
+<ul>
+<li>
+<p><strong>Why did I choose this particular implementation?</strong></p>
+<ul>
+<li>方法一：入度表（廣度優先遍歷）
+算法流程：
+1.統計課程安排圖中每個節點的入度，生成 入度表 indegrees。
+2.借助一個隊列 queue，將所有入度為 0 的節點入隊。
+3.當 queue 非空時，依次將隊首節點出隊，在課程安排圖中刪除此節點 pre：</li>
+<li>並不是真正從鄰接表中刪除此節點 pre，而是將此節點對應所有鄰接節點 cur 的入度 -1，即 indegrees[cur] -= 1。</li>
+<li>當入度 -1−1後鄰接節點 cur 的入度為 00，說明 cur 所有的前驅節點已經被 “刪除”，此時將 cur 入隊。
+4.在每次 pre 出隊時，執行 numCourses--；</li>
+<li>若整個課程安排圖是有向無環圖（即可以安排），則所有節點一定都入隊並出隊過，即完成拓撲排序。換個角度說，若課程安排圖中存在環，一定有節點的入度始終不為 0。</li>
+<li>因此，拓撲排序出隊次數等於課程個數，返回 numCourses == 0 判斷課程是否可以成功安排。</li>
+</ul>
+<p>復雜度分析：</p>
+<ul>
+<li>時間復雜度 O(N + M)： 遍歷一個圖需要訪問所有節點和所有臨邊，N 和 M 分別為節點數量和臨邊數量；</li>
+<li>空間復雜度 O(N + M)： 為建立鄰接表所需額外空間，adjacency 長度為 N ，並存儲 M 條臨邊的數據。
+<em>/</em>*</li>
+<li>這個問題相當於在先決條件表示的有向圖中檢測一個循環。 BFS 和 DFS 都可以利用拓撲排序的思想來解決它。</li>
+<li>由於 pair<int, int> 不方便實現圖算法，我們首先將其轉換為鄰接表表示。如果課程 u 是課程 v 的先決條件，那麼 u 的鄰接表將包含 v。</li>
+<li>BFS 使用每個節點的入度。我們將首先嘗試找到一個度數為 0 的節點。</li>
+<li>如果我們不這樣做，則圖中一定有一個循環，我們返回 false。否則，我們將其入度設置為 -1 以防止再次訪問它並將其鄰居的入度減少 1。此過程將重複 n（節點數）次。
+*/</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

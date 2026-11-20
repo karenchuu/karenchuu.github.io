@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>剑指 Offer 24. 反转链表 · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff easy">Easy</span> <a class="tag" href="../../t/linked-list/">Linked List</a> <a class="tag" href="../../t/recursion/">Recursion</a> <span class="date">📅 2022-03-19</span></div>
+<h1>剑指 Offer 24. 反转链表</h1><div class="actions"><a class="btn" href="https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/submissions/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p><img src="../../img/41e83e04fe17.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<hr />
+<div class="hl"><pre><span></span><code>
+</code></pre></div>
+
+<h1>Solution #1 [Recursion]</h1>
+<p>执行用时：<strong>0 ms</strong>, 在所有 Java 提交中击败了<strong>100.00%</strong>的用户</p>
+<p>内存消耗：<strong>41.1 MB</strong>, 在所有 Java 提交中击败了<strong>9.84%</strong>的用户</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span><span class="w"> </span><span class="c1">// &lt;—递归退出条件</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reverseList</span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">);</span><span class="w"> </span><span class="c1">// 子問題的解</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li>
+<p><strong>How does their solution work?</strong></p>
+<ol>
+<li>判斷 head 或 head.next 是否為 null，若 <code>是</code> 則回傳 head</li>
+<li>宣告 <code>ListNode newHead</code> 使用遞迴去找出反轉後的 head，就是根據 1. 去判斷，若找到 newHead 後開始回傳</li>
+<li>head.next.next 改串接為 head，此時newHead指向子問題的Head，形成反轉</li>
+<li>head.next 則指向 null 斷開 <code>cycle</code> 的情況</li>
+<li>回傳已經反轉的 LinkedList</li>
+</ol>
+<p><img src="../../img/4784ee970c78.webp" alt="" loading="lazy"></p>
+</li>
+<li>
+<p><strong>What is the space/time complexity of their solution?</strong></p>
+<ul>
+<li>time: O(n) 看有幾個節點（有n個）一差樹為線性的</li>
+<li>space: O(n) 遞歸一直壓棧</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>
