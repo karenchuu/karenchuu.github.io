@@ -14,7 +14,7 @@ window.LC_NAV=[{"t": "Array", "s": "array", "p": [[1, "1. Two Sum", "1-two-sum",
         h+='<li><a href="'+u+'"'+(on?' class="on"':"")+' title="'+esc(p[1])+'"><span class="d d'+p[3]+'"></span>'+esc(p[1])+'</a></li>'});
       h+="</ul></details>";
     });
-    nav.innerHTML=h||'<p style="color:#7c776c;padding:0 10px">找不到符合的題目</p>';
+    nav.innerHTML=h||'<p style="color:#7c776c;padding:0 10px"><span class="zh">找不到符合的題目</span><span class="en">No matching problems</span></p>';
   }
   draw(); q.addEventListener("input",function(){draw(q.value)});
   var on=nav.querySelector("a.on"); if(on) on.scrollIntoView({block:"center"});
