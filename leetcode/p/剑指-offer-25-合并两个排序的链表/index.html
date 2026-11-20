@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>剑指 Offer 25. 合并两个排序的链表 · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff medium">Medium</span> <a class="tag" href="../../t/linked-list/">Linked List</a> <a class="tag" href="../../t/recursion/">Recursion</a> <span class="date">📅 2022-03-20</span></div>
+<h1>剑指 Offer 25. 合并两个排序的链表</h1><div class="actions"><a class="btn" href="https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p><img src="../../img/2a8092e33879.webp" alt="" loading="lazy"></p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<hr />
+<div class="hl"><pre><span></span><code>
+</code></pre></div>
+
+<h1>Solution #1 [王爭-Recursion]</h1>
+<p>执行用时：<strong>0 ms</strong>, 在所有 Java 提交中击败了<strong>100.00%</strong>的用户</p>
+<p>内存消耗：<strong>41.2 MB</strong>, 在所有 Java 提交中击败了<strong>50.59%</strong>的用户</p>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">mergeTwoLists</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">l1</span><span class="p">,</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="n">l2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l2</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l1</span><span class="p">;</span>
+
+<span class="w">                </span><span class="c1">// 如果l1.val &lt;= l2.val，那么頭節點的值为l1.head的值，然後開始遞歸</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ListNode</span><span class="w"> </span><span class="n">subHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mergeTwoLists</span><span class="p">(</span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="p">,</span><span class="w"> </span><span class="n">l2</span><span class="p">);</span>
+<span class="w">            </span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subHead</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">l1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">//否则，头结点的值为l2.head的值，然后开始递归</span>
+<span class="w">            </span><span class="n">ListNode</span><span class="w"> </span><span class="n">subHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mergeTwoLists</span><span class="p">(</span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="p">,</span><span class="w"> </span><span class="n">l1</span><span class="p">);</span>
+<span class="w">            </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subHead</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">l2</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li>特判：如果有一個鏈表為空，返回另一個鏈表
+如果l1節點值比l2小，下一個節點應該是l1，應該return l1，在return之前，指定l1的下一個節點應該是 l1.next 和 l2 倆鏈表的合並後的頭結點
+如果l1節點值比l2大，下一個節點應該是l2，應該return l2，在return之前，指定l2的下一個節點應該是 l1 和 l2.next 倆鏈表的合並後的頭結點</li>
+</ul>
+</li>
+</ul>
+<div class="hl"><pre><span></span><code><span class="c1">//(1,1):代表第一次进入递归函数，并且从第一个口进入，并且记录进入前链表的状态</span>
+<span class="n">merge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="w"> </span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">    </span><span class="nf">merge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span><span class="w"> </span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">        </span><span class="nf">merge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span><span class="w"> </span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">            </span><span class="nf">merge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span><span class="w"> </span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">                </span><span class="nf">merge</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="w"> </span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">                    </span><span class="nf">merge</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="w"> </span><span class="mi">5</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">                        </span><span class="nf">merge</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span>
+<span class="w">                        </span><span class="k">return</span><span class="w"> </span><span class="n">l2</span>
+<span class="w">                    </span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="mi">5</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l1</span>
+<span class="w">                </span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l1</span>
+<span class="w">            </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l2</span>
+<span class="w">        </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l2</span>
+<span class="w">    </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l2</span>
+<span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">---</span><span class="w"> </span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">1</span><span class="o">-&gt;</span><span class="mi">2</span><span class="o">-&gt;</span><span class="mi">3</span><span class="o">-&gt;</span><span class="mi">4</span><span class="o">-&gt;</span><span class="mi">5</span><span class="o">-&gt;</span><span class="mi">6</span><span class="o">-&gt;</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l1</span>
+</code></pre></div>
+
+<ul>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>假設 l1 n 個節點， l2 m個節點</li>
+<li>time: O(n+m) ，因為總節點n+m</li>
+<li>space: O(n+m)</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>面试题 16.11. 跳水板 · Karen's LeetCode Notes</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head><body data-root="../../">
+<header class="top"><button class="menu" aria-label="選單" onclick="document.body.classList.toggle('nav-open')">☰</button>
+<a class="brand" href="../../">Karen's LeetCode Notes</a></header>
+<div class="layout">
+<aside class="side"><input id="q" type="search" placeholder="搜尋題號或名稱…" autocomplete="off"><nav id="nav"></nav></aside>
+<main class="main"><article class="card note"><div class="meta"><span class="diff easy">Easy</span> <a class="tag" href="../../t/array/">Array</a> <a class="tag" href="../../t/math/">Math</a> <span class="date">📅 2022-02-26</span></div>
+<h1>面试题 16.11. 跳水板</h1><div class="actions"><a class="btn" href="https://leetcode-cn.com/problems/diving-board-lcci/" target="_blank" rel="noopener">在 LeetCode 開啟 ↗</a></div>
+<div class="body"><details>
+<summary>Question</summary>
+<p>You are building a diving board by placing a bunch of planks of wood end-to-end. There are two types of planks, one of length shorter and one of length longer. You must use exactly K planks of wood. Write a method to generate all possible lengths for the diving board.</p>
+<p>return all lengths in non-decreasing order.</p>
+<p>Example:</p>
+<div class="hl"><pre><span></span><code>**Input:**
+shorter = 1
+longer = 2
+k = 3
+**Output:  {3,4,5,6}**
+</code></pre></div>
+
+<p>Note:</p>
+<p>0 &lt; shorter &lt;= longer
+0 &lt;= k &lt;= 100000</p>
+</details>
+<h1>✍🏽 My Solution</h1>
+<hr />
+<div class="hl"><pre><span></span><code>
+</code></pre></div>
+
+<h3>🧠 Thought Process</h3>
+<ul>
+<li><strong>Why did I choose this particular implementation?</strong><ul>
+<li>先舉證 s = 2, l = 3, k = 2(1+1, 0+2, 2+0)
+output: [4,5,6]</li>
+<li>可用雙重迴圈，將所有木板加起來</li>
+<li>但是不知道如何回傳陣列值</li>
+</ul>
+</li>
+</ul>
+<h1>Solution #1 [王爭-等差數列]</h1>
+<hr />
+<div class="hl"><pre><span></span><code><span class="kd">class</span> <span class="nc">Solution</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">divingBoard</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">shorter</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">longer</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">shorter</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">longer</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">shorter</span><span class="p">};</span>
+
+<span class="w">                </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// 長板個數：0, 1, 2...k</span>
+<span class="w">        </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">k</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">longer</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">shorter</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Explanation (in my words)</h3>
+<ul>
+<li><strong>How does their solution work?</strong><ul>
+<li>
+<p>这个题不是 DP 或者是 DFS 什么的。看给出的 k 的范围是 100000，我们知道需要用 O(n) 的解法。因此需要找规律了。</p>
+<p>两个特例：</p>
+<ol>
+<li>k == 0，这个时候返回[]</li>
+<li>shorter == longer，此时结果中只有一种长度，即 shorter * k</li>
+</ol>
+<p>除了上述两种特例之外，即要从长度为 shorter 和 longer 的木板中（longer &gt; shorter），挑选 k (k &gt; 0) 个。</p>
+<p><strong>先说结论：</strong>构成的不同长度木板的结果必有 k + 1 个，分别为 shorter * k + (longer - shorter) * i，其中 0 &lt;= i &lt;= k。</p>
+<p><strong>证明如下：</strong></p>
+<p>假如，1. 一共取 <code>k</code> 个木板, 假设取 m 条短木板, <code>(0 &lt;= m &lt;= k)</code>, 那么对应长木板为 <code>(k - m)</code> 条; 假设取了 k - i 个 shorter 木板，则取了 i 个 longer 木板。</p>
+<p>构成的总长度 f(i) 是：</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="hl"><pre><span></span><code><span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shorter</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">longer</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span>
+<span class="o">=</span><span class="w"> </span><span class="n">shorter</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">longer</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">shorter</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span>
+</code></pre></div>
+
+<div class="hl"><pre><span></span><code>    由于 longer - shorter &gt; 0，所以 f(i) 是随着 i 的增长而单调递增的一元线性函数。
+
+    由一元线性函数的性质，我们知道函数 f(i) 不会有相同的取值。而 i 的取值是 0 &lt;= i &lt;= k，因此 f(i) 必有 k + 1 个不同的取值。
+
+    因此我们定义一个长度为 k + 1 的数组，把其中的每个位置分别设置为 shorter * (k - i) + longer * i 即可。
+</code></pre></div>
+
+<ul>
+<li><strong>What is the space/time complexity of their solution?</strong><ul>
+<li>time: O(k)</li>
+<li>space: O(1) 如果不把result算進去的話</li>
+</ul>
+</li>
+</ul></div></article><footer class="foot">Exported from Notion</footer></main>
+</div>
+<script src="../../assets/nav.js"></script>
+</body></html>
